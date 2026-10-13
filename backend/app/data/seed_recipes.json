@@ -1,0 +1,117 @@
+{
+ "meta": {
+  "scaling_rule": "servings = adults_count + (kids_count * 0.6)",
+  "pantry_note": "פריטים עם pantry_optional=true ניתנים לסימון 'יש לי בבית' ויוצאים מהסל"
+ },
+ "sides": [
+  { "id": "chips",   "title": "צ'יפס",      "emoji": "🍟", "tag": "chips_frozen",   "per_person": 200, "unit": "g",    "label": "צ'יפס קפוא" },
+  { "id": "tahini",  "title": "טחינה",      "emoji": "🥣", "tag": "tahini",         "per_person": 40,  "unit": "g",    "label": "טחינה גולמית" },
+  { "id": "hummus",  "title": "חומוס",      "emoji": "🧆", "tag": "hummus",         "per_person": 80,  "unit": "g",    "label": "חומוס מוכן" },
+  { "id": "pickles", "title": "חמוצים",     "emoji": "🥒", "tag": "pickles",        "per_person": 60,  "unit": "g",    "label": "מלפפון חמוץ" },
+  { "id": "salad",   "title": "סלט קצוץ",   "emoji": "🥗", "tag": "salad_tomato",   "per_person": 100, "unit": "g",    "label": "סלט ישראלי",
+    "extra": [
+      { "tag": "salad_cucumber", "per_person": 100, "unit": "g", "label": "מלפפונים לסלט" },
+      { "tag": "onion",          "per_person": 40,  "unit": "g", "label": "בצל" },
+      { "tag": "lemon",          "per_person": 30,  "unit": "g", "label": "לימון" }
+    ] },
+  { "id": "pita",    "title": "פיתות",      "emoji": "🫓", "tag": "pita",           "per_person": 2,   "unit": "unit", "label": "פיתות גדולות" },
+  { "id": "soda",    "title": "שתייה קלה",  "emoji": "🥤", "tag": "soda",           "per_person": 400, "unit": "ml",   "label": "שתייה מוגזת" }
+ ],
+ "recipes": [
+  {
+   "id": "shawarma",
+   "title": "שווארמה ביתית",
+   "emoji": "🌯",
+   "base_servings": 1,
+   "meat_per_person_g": 250,
+   "pita_per_person": 2,
+   "chips_per_person_g": 200,
+   "tahini_per_person_g": 40,
+   "delivery_benchmark_per_person": 72,
+   "default_sides": ["chips", "tahini", "salad", "pita", "pickles"],
+   "ingredients": [
+    { "key": "meat",   "tag": "meat_shawarma",  "per_person": 250, "unit": "g", "label": "פרגית לשווארמה", "role": "hero",   "pantry_optional": false },
+    { "key": "onion",  "tag": "onion",          "per_person": 50,  "unit": "g", "label": "בצל לטיגון",      "role": "base",   "pantry_optional": false },
+    { "key": "spice",  "tag": "shawarma_spice", "per_person": 10,  "unit": "g", "label": "תבלין שווארמה",   "role": "pantry", "pantry_optional": true },
+    { "key": "oil",    "tag": "oil",            "per_person": 15,  "unit": "ml","label": "שמן לטיגון",      "role": "pantry", "pantry_optional": true }
+   ],
+   "steps": [
+    { "order": 1, "title": "הכנת הבשר",   "desc": "חותכים את הפרגית לרצועות דקות, מתבלים בתבלין שווארמה, מלח ושמן. מערבבים היטב ונותנים לנוח 10 דקות.", "duration_min": 10, "tip": "תיבול מוקדם = טעם עמוק יותר. אפשר להשרות מראש בלילה." },
+    { "order": 2, "title": "קרמול הבצל",  "desc": "מטגנים בצל פרוס דק במחבת לוהטת עד הזהבה, מוציאים לצד.", "duration_min": 6, "tip": "הבצל סופג את שומן הפרגית ומחזיר אותו לבשר." },
+    { "order": 3, "title": "צריבה",       "desc": "צורבים את הבשר במחבת לוהטת/ניינג'ה גריל במנות קטנות, 5-6 דקות לכל מנה, בלי לצופף.", "duration_min": 12, "tip": "מחבת עמוסה מבשלת באדים במקום לצרוב." },
+    { "order": 4, "title": "צ'יפס וסלט",  "desc": "במקביל: צ'יפס לתנור/אייר פרייר ב-200° וקיצוץ סלט ישראלי עם לימון ושמן זית.", "duration_min": 20, "tip": "קוצצים בגודל אחיד כדי שהסלט לא ייתן מים." },
+    { "order": 5, "title": "הרכבה",       "desc": "מחממים פיתה, מורחים טחינה, ממלאים בשר, סלט, חמוצים וצ'יפס בפנים.", "duration_min": 5, "tip": "טחינה מדוללת במים קרים ולימון - לא סמיכה מדי." }
+   ]
+  },
+  {
+   "id": "burger",
+   "title": "המבורגר ביתי",
+   "emoji": "🍔",
+   "base_servings": 1,
+   "meat_per_person_g": 180,
+   "delivery_benchmark_per_person": 78,
+   "default_sides": ["chips", "pickles", "salad"],
+   "ingredients": [
+    { "key": "patty",  "tag": "ground_beef",   "per_person": 180, "unit": "g",    "label": "בשר בקר טחון", "role": "hero",  "pantry_optional": false },
+    { "key": "bun",    "tag": "burger_bun",    "per_person": 1.2, "unit": "unit", "label": "לחמניות",       "role": "base",  "pantry_optional": false },
+    { "key": "cheese", "tag": "yellow_cheese", "per_person": 40,  "unit": "g",    "label": "גבינה צהובה",   "role": "base",  "pantry_optional": false },
+    { "key": "tomato", "tag": "salad_tomato",  "per_person": 60,  "unit": "g",    "label": "עגבנייה",       "role": "base",  "pantry_optional": false },
+    { "key": "ketchup","tag": "ketchup",       "per_person": 25,  "unit": "g",    "label": "קטשופ",         "role": "pantry","pantry_optional": true },
+    { "key": "oil",    "tag": "oil",           "per_person": 10,  "unit": "ml",   "label": "שמן",           "role": "pantry","pantry_optional": true }
+   ],
+   "steps": [
+    { "order": 1, "title": "עיצוב הקציצות", "desc": "מחלקים את הבשר לקציצות של 180 גרם, משטחים ויוצרים גומה קטנה במרכז. מולחים רק רגע לפני הצלייה.", "duration_min": 8, "tip": "לא ללוש את הבשר - זה מה שהופך המבורגר לקשה." },
+    { "order": 2, "title": "חימום המחבת",   "desc": "מחממים מחבת ברזל/גריל על אש גבוהה עד שהיא ממש לוהטת.", "duration_min": 5, "tip": "טיפת מים צריכה להתאדות מיד." },
+    { "order": 3, "title": "צלייה",         "desc": "3 דקות לכל צד למדיום. מניחים פרוסת גבינה בדקה האחרונה ומכסים להמסה.", "duration_min": 7, "tip": "הופכים פעם אחת בלבד." },
+    { "order": 4, "title": "קילוי הלחמנייה","desc": "חוצים לחמניות ומקלים אותן בצד החתוך במחבת לדקה.", "duration_min": 3, "tip": "קילוי = מחסום לחות, הלחמנייה לא מתפוררת." },
+    { "order": 5, "title": "הרכבה והגשה",  "desc": "רוטב, קציצה, גבינה, עגבנייה, חמוצים. מגישים מיד עם צ'יפס חם.", "duration_min": 4, "tip": "ירקות קרים תמיד מעל הגבינה החמה." }
+   ]
+  },
+  {
+   "id": "pizza",
+   "title": "פיצה DIY",
+   "emoji": "🍕",
+   "base_servings": 1,
+   "delivery_benchmark_per_person": 45,
+   "default_sides": ["soda", "salad"],
+   "ingredients": [
+    { "key": "dough",  "tag": "pizza_dough",   "per_person": 180, "unit": "g", "label": "בצק פיצה",     "role": "hero",  "pantry_optional": false },
+    { "key": "sauce",  "tag": "pizza_sauce",   "per_person": 80,  "unit": "g", "label": "רוטב פיצה",     "role": "base",  "pantry_optional": false },
+    { "key": "cheese", "tag": "pizza_cheese",  "per_person": 120, "unit": "g", "label": "מוצרלה מגורדת", "role": "hero",  "pantry_optional": false },
+    { "key": "topping","tag": "pizza_topping", "per_person": 50,  "unit": "g", "label": "תוספות",        "role": "base",  "pantry_optional": false },
+    { "key": "oil",    "tag": "oil",           "per_person": 10,  "unit": "ml","label": "שמן זית",       "role": "pantry","pantry_optional": true }
+   ],
+   "steps": [
+    { "order": 1, "title": "חימום תנור",  "desc": "מחממים תנור לחום מקסימלי (250-280°) עם תבנית הפוכה או אבן שמוט בפנים, 30 דקות.", "duration_min": 30, "tip": "תנור חם באמת = תחתית פריכה. זה הסוד היחיד." },
+    { "order": 2, "title": "מתיחת הבצק",  "desc": "מותחים את הבצק בידיים מהמרכז החוצה, משאירים שוליים עבים יותר.", "duration_min": 8, "tip": "מערוך הורג את בועות האוויר בשוליים." },
+    { "order": 3, "title": "ציפוי",       "desc": "מורחים רוטב בשכבה דקה, מפזרים מוצרלה ותוספות. לא להעמיס.", "duration_min": 5, "tip": "יותר מדי רוטב = פיצה רכה באמצע." },
+    { "order": 4, "title": "אפייה",       "desc": "אופים 7-9 דקות עד שהשוליים מזהיבים והגבינה מבעבעת.", "duration_min": 9, "tip": "דקה אחרונה בגריל עליון לכתמי שריפה." },
+    { "order": 5, "title": "מנוחה וחיתוך","desc": "ממתינים 2 דקות, מזלפים שמן זית וחותכים.", "duration_min": 3, "tip": "חיתוך מיידי מבריח את כל הגבינה לצדדים." }
+   ]
+  },
+  {
+   "id": "bbq",
+   "title": "על האש",
+   "emoji": "🔥",
+   "base_servings": 1,
+   "meat_per_person_g": 400,
+   "delivery_benchmark_per_person": 95,
+   "default_sides": ["pita", "tahini", "hummus", "salad", "pickles", "soda"],
+   "ingredients": [
+    { "key": "kebab",    "tag": "kebab",      "per_person": 200, "unit": "g",    "label": "קבב",            "role": "hero",  "pantry_optional": false },
+    { "key": "wings",    "tag": "bbq_wings",  "per_person": 200, "unit": "g",    "label": "כנפיים/פרגית",   "role": "hero",  "pantry_optional": false },
+    { "key": "charcoal", "tag": "charcoal",   "per_person": 600, "unit": "g",    "label": "פחמים",          "role": "extra", "pantry_optional": true },
+    { "key": "foil",     "tag": "foil",       "per_person": 4,   "unit": "m",    "label": "נייר אלומיניום", "role": "extra", "pantry_optional": true },
+    { "key": "plates",   "tag": "disposable", "per_person": 4,   "unit": "unit", "label": "כלים חד פעמיים", "role": "extra", "pantry_optional": true },
+    { "key": "paprika",  "tag": "spice",      "per_person": 8,   "unit": "g",    "label": "תבלינים",        "role": "pantry","pantry_optional": true }
+   ],
+   "steps": [
+    { "order": 1, "title": "הדלקת המנגל", "desc": "מדליקים פחמים ומחכים 25-30 דקות עד שכל הפחם מכוסה אפר אפור. בלי להתחיל לפני.", "duration_min": 30, "tip": "להבה גלויה = פיח על הבשר. מחכים לגחלים." },
+    { "order": 2, "title": "הכנת הבשר",   "desc": "מתבלים קבב ופרגית במלח, פפריקה וכמון. משחילים על שיפודים.", "duration_min": 15, "tip": "משאירים מרווח קטן בין הנתחים לצלייה אחידה." },
+    { "order": 3, "title": "אזור חום כפול","desc": "אוספים את רוב הגחלים לצד אחד - צד חם לצריבה וצד קריר לסיום בישול.", "duration_min": 5, "tip": "זה מה שמונע בשר שרוף מבחוץ וחי מבפנים." },
+    { "order": 4, "title": "צלייה",       "desc": "פרגית 12-14 דקות עם הפיכות, קבב 8-10 דקות. מסיימים בצד הקריר.", "duration_min": 15, "tip": "לא ללחוץ על הבשר - מאבדים את כל הנוזלים." },
+    { "order": 5, "title": "הגשה",        "desc": "מחממים פיתות על הרשת 30 שניות, מגישים עם טחינה, חומוס, סלט וחמוצים.", "duration_min": 6, "tip": "מניחים את הבשר במגש מכוסה 3 דקות לפני ההגשה." }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,115 @@
+# Builds the standalone Android app and attaches the APK to a GitHub release.
+#
+# The APK carries the catalogue and the whole algorithm set inside it, so the
+# installed app needs neither this repo's server nor a network connection.
+name: Android APK
+
+on:
+  push:
+    tags: ["v*"]
+    branches: [main]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/android.yml"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Publish a release under this tag (e.g. v1.0.1). Leave empty to only build."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # AGP 8.2 targets JDK 17; newer JDKs break the Kotlin/Android plugin pair.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the web bundle (offline mode — no API URL)
+        env:
+          NEXT_PUBLIC_API_URL: ""
+          NEXT_PUBLIC_BUILD_TARGET: android
+          NEXT_BASE_PATH: ""
+        run: npm run build
+
+      - name: Copy the bundle into the Android project
+        run: npx cap sync android
+
+      - name: Stamp the version
+        run: |
+          TAG="${{ github.event.inputs.release_tag || github.ref_name }}"
+          VERSION="$(echo "$TAG" | sed 's/^v//')"
+          case "$VERSION" in
+            [0-9]*) ;;                       # a real version from a tag
+            *) VERSION="0.0.${{ github.run_number }}" ;;   # branch build
+          esac
+          sed -i "s/versionCode 1/versionCode ${{ github.run_number }}/" android/app/build.gradle
+          sed -i "s/versionName \"1.0.0\"/versionName \"${VERSION}\"/" android/app/build.gradle
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+          grep -E "versionCode|versionName" android/app/build.gradle
+
+      - name: Assemble the APK
+        working-directory: frontend/android
+        run: |
+          echo "sdk.dir=${ANDROID_HOME:-$ANDROID_SDK_ROOT}" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+
+      - name: Name the artifact
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk "dist/cartfit-${VERSION}.apk"
+          ls -lh dist/
+          echo "APK=frontend/dist/cartfit-${VERSION}.apk" >> "$GITHUB_ENV"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cartfit-apk
+          path: frontend/dist/*.apk
+          if-no-files-found: error
+
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.release_tag != ''
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
+        run: |
+          NOTES=$(cat <<'EOF'
+          ## CartFit · סל-פיקס
+
+          **התקנה:** הורידו את קובץ ה-APK למטה, פתחו אותו בטלפון ואשרו התקנה ממקור לא מזוהה.
+
+          האפליקציה עובדת לגמרי בלי חיבור לאינטרנט — הקטלוג והאלגוריתמים מוטמעים בתוכה:
+          סל לפי תקציב, מצב שף, השוואה בין חמש הרשתות, סל מפוצל, רשימת קנייה וניהול מזווה.
+
+          ה-APK חתום במפתח debug, ולכן הוא להתקנה ישירה ולא להפצה בחנות.
+          EOF
+          )
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$APK" --clobber
+          else
+            gh release create "$TAG" "$APK" --title "CartFit $TAG" --notes "$NOTES"
+          fi

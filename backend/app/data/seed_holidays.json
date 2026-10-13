@@ -1,0 +1,26 @@
+{
+ "presets": [
+  { "id": "shabbat",      "title": "ארוחת שישי",        "emoji": "🕯️", "suggested_budget": 400, "focus": "weekend",
+    "must_tags": ["chicken", "bread", "soda"], "boost_tags": ["rice", "veg", "sweet", "fish"], "note": "חלות, עוף, תוספות ושתייה למשפחה" },
+  { "id": "rosh_hashana", "title": "ראש השנה",          "emoji": "🍎", "suggested_budget": 650, "focus": "weekend",
+    "must_tags": ["fruit", "chicken", "sweet"], "boost_tags": ["fish", "veg", "dairy"], "note": "דבש, רימונים, דגים ובשר לחג" },
+  { "id": "pesach",       "title": "פסח (כשר לפסח)",    "emoji": "🍷", "suggested_budget": 700, "focus": "weekend",
+    "must_tags": ["veg", "chicken", "eggs"], "boost_tags": ["fruit", "potato", "fish"], "kosher_pesach_only": true, "note": "מסנן אוטומטית חמץ מהסל" },
+  { "id": "bbq_day",      "title": "יום העצמאות / מנגל", "emoji": "🔥", "suggested_budget": 550, "focus": "weekend",
+    "must_tags": ["bbq_meat", "charcoal", "pita"], "boost_tags": ["disposable", "soda", "pickles", "hummus", "chips_frozen"], "note": "ערכת על האש מלאה" },
+  { "id": "shavuot",      "title": "שבועות",            "emoji": "🧀", "suggested_budget": 380, "focus": "balanced",
+    "must_tags": ["dairy", "yellow_cheese"], "boost_tags": ["pasta", "fruit", "bread", "eggs"], "note": "מגש גבינות, פסטות ומאפים" }
+ ],
+ "seasons": [
+  { "id": "winter", "title": "חורף", "months": [11,12,1,2,3], "boost_tags": ["legume","grain","rice","spice","tea","coffee"], "note": "מרקים, נזידים ומאפים" },
+  { "id": "summer", "title": "קיץ",  "months": [5,6,7,8,9],   "boost_tags": ["fruit","water","juice","dessert","lettuce","fish"], "note": "סלטים, פירות קרים ושתייה" }
+ ],
+ "leftover_ideas": [
+  { "id": "shakshuka",    "title": "שקשוקה",            "needs": ["eggs", "salad_tomato", "onion"],        "time_min": 20, "desc": "עגבניות, בצל וביצים שנשארו - ארוחת ערב ב-20 דקות." },
+  { "id": "pasta_rose",   "title": "פסטה ברוטב רוזה",   "needs": ["pasta", "canned", "dairy"],             "time_min": 18, "desc": "רסק עגבניות ושמנת שנשארו הופכים לרוטב רוזה." },
+  { "id": "chicken_rice", "title": "אורז עם שאריות עוף", "needs": ["rice", "chicken", "onion"],             "time_min": 25, "desc": "אורז מוקפץ עם שאריות עוף, בצל וירקות." },
+  { "id": "veg_soup",     "title": "מרק ירקות",         "needs": ["veg", "potato"],                        "time_min": 35, "desc": "ירקות שמתחילים להתעייף - ישר לסיר מרק." },
+  { "id": "toast",        "title": "טוסט גבינה מושלם",  "needs": ["bread", "yellow_cheese"],               "time_min": 8,  "desc": "לחם וגבינה צהובה לפני שהם מתייבשים." },
+  { "id": "hummus_bowl",  "title": "קערת חומוס",        "needs": ["hummus", "pita", "pickles"],            "time_min": 10, "desc": "חומוס, ביצה קשה וחמוצים על פיתה." }
+ ]
+}

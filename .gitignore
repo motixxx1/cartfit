@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+cartfit.db
+node_modules/
+.next/
+out/
+.env*.local
+.DS_Store

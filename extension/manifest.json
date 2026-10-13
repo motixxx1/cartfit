@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "CartFit · הזרקת סל לרשת",
+  "version": "1.0.0",
+  "description": "טוען את הסל שבנית ב-CartFit ישירות לעגלה באתר הסופרמרקט",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": [
+    "https://www.shufersal.co.il/*",
+    "https://www.rami-levy.co.il/*",
+    "https://www.carrefour.co.il/*",
+    "https://www.victoryonline.co.il/*",
+    "https://yochananof.co.il/*"
+  ],
+  "action": { "default_popup": "popup.html", "default_title": "CartFit" },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.shufersal.co.il/*",
+        "https://www.rami-levy.co.il/*",
+        "https://www.carrefour.co.il/*",
+        "https://www.victoryonline.co.il/*",
+        "https://yochananof.co.il/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
