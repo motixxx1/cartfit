@@ -1,0 +1,24 @@
+# One-click deploy on Render: New → Blueprint → point at this repo.
+# The free tier sleeps after inactivity; the first request then takes ~30s.
+services:
+  - type: web
+    name: cartfit-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: frankfurt          # closest region to Israel
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: DATABASE_URL
+        value: sqlite:////data/cartfit.db
+      - key: CORS_ORIGINS
+        # the GitHub Pages site; add your own domain here too
+        value: https://motixxx1.github.io
+    disk:
+      name: cartfit-data
+      mountPath: /data
+      sizeGB: 1

@@ -52,6 +52,36 @@ cd android && ./gradlew assembleDebug      # app/build/outputs/apk/debug/
 
 ---
 
+## ⚙️ להריץ את השרת
+
+השרת עצמאי לגמרי — האפליקציה והאתר עובדים בלעדיו. הוא נחוץ כשרוצים מחירים
+אמיתיים מקבצי חוק המזון במקום קטלוג הדמו.
+
+```bash
+# מקומית
+docker compose up -d                 # http://localhost:8000/docs
+
+# או מהאימג' ש-CI מפרסם
+docker run -d -p 8000:8000 -v cartfit-data:/data \
+  ghcr.io/motixxx1/cartfit/api:main
+```
+
+**לענן:** `backend/render.yaml` (Render → New → Blueprint) או `backend/fly.toml`
+(`fly launch --copy-config`). שניהם מגדירים דיסק ב-`/data`, בדיקת בריאות ב-`/health`
+ואזור אירופאי.
+
+| משתנה סביבה | ברירת מחדל | למה |
+|---|---|---|
+| `PORT` | `8000` | פורט ההאזנה |
+| `DATABASE_URL` | `sqlite:///./cartfit.db` | `sqlite:////data/cartfit.db` לדיסק מחובר |
+| `CORS_ORIGINS` | `*` | רשימה מופרדת בפסיקים של דומיינים מורשים |
+
+**לחבר את הלקוח לשרת:** Settings → Secrets and variables → Actions → Variables →
+`CARTFIT_API_URL` עם כתובת השרת. ה-workflow של האתר בונה מולו, והמנוע המקומי
+נשאר כגיבוי כשאין רשת. ה-APK נשאר אופליין בכוונה.
+
+---
+
 ## האלגוריתמים
 
 ### 1. Knapsack לפי תקציב
@@ -95,7 +125,7 @@ servings = adults + kids × 0.6
 ## בדיקות
 
 ```bash
-cd backend  && python -m pytest                      # 41 בדיקות על הקטלוג האמיתי
+cd backend  && python -m pytest                      # 43 בדיקות על הקטלוג האמיתי
 cd frontend && npm run build && npm run test:offline # דפדפן אמיתי, כל הרשת חסומה
 ```
 

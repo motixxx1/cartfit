@@ -1,0 +1,28 @@
+# Deploy on Fly.io:  fly launch --copy-config --no-deploy  &&  fly deploy
+app = "cartfit-api"
+primary_region = "cdg"         # Paris — lowest latency to Israel of the EU regions
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8000"
+  DATABASE_URL = "sqlite:////data/cartfit.db"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  path = "/health"
+  timeout = "5s"
+
+[mounts]
+  source = "cartfit_data"
+  destination = "/data"

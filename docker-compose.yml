@@ -1,0 +1,23 @@
+# Runs the API on any machine with Docker — a VPS, or locally.
+#
+#   docker compose up -d        → http://localhost:8000/docs
+#
+# The seed catalogue ships inside the image; ingested price files and the user
+# tables live on the named volume, so they survive a restart or an image update.
+services:
+  api:
+    build: ./backend
+    # or pull the image CI publishes, instead of building:
+    # image: ghcr.io/motixxx1/cartfit/api:main
+    container_name: cartfit-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: 8000
+      DATABASE_URL: sqlite:////data/cartfit.db
+    volumes:
+      - cartfit-data:/data
+
+volumes:
+  cartfit-data:

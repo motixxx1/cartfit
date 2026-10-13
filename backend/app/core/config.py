@@ -35,8 +35,26 @@ class Settings(BaseSettings):
     pro_price_monthly: float = 9.90
     affiliate_tag: str = "cartfit"
 
-    # cors
-    cors_origins: List[str] = ["*"]
+    # cors — a comma-separated env string, because a JSON list in an env var is
+    # a common source of start-up crashes on hosted platforms.
+    cors_origins: str = "*"
+
+    @property
+    def cors_origin_list(self) -> List[str]:
+        return [o.strip() for o in self.cors_origins.split(",") if o.strip()] or ["*"]
+
+    @property
+    def sqlite_path(self) -> Path:
+        """Filesystem path behind database_url, for the stdlib sqlite3 layer.
+
+        Hosted deployments mount a volume and pass
+        DATABASE_URL=sqlite:////data/cartfit.db; anything non-sqlite falls back
+        to a local file so the app still starts.
+        """
+        url = self.database_url
+        if url.startswith("sqlite:///"):
+            return Path(url[len("sqlite:///"):]).expanduser()
+        return BASE_DIR.parent / "cartfit.db"
 
 
 settings = Settings()

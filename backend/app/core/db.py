@@ -14,7 +14,9 @@ from pathlib import Path
 from random import SystemRandom
 from typing import Any, Dict, Iterable, List, Optional
 
-DB_PATH = Path(__file__).resolve().parent.parent.parent / "cartfit.db"
+from app.core.config import settings
+
+DB_PATH = settings.sqlite_path
 _rand = SystemRandom()
 ALPHABET = string.ascii_uppercase.replace("O", "").replace("I", "") + "23456789"
 
@@ -66,6 +68,7 @@ CREATE TABLE IF NOT EXISTS community_meals (
 
 @contextmanager
 def connect():
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     try:
@@ -76,6 +79,7 @@ def connect():
 
 
 def init_db() -> None:
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     with connect() as conn:
         conn.executescript(SCHEMA)
 

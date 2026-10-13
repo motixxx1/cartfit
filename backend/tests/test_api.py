@@ -271,6 +271,31 @@ def test_price_filename_is_parsed():
 
 
 # --------------------------------------------------------------------------- #
+#  Stateful flow - what a deployed instance actually persists
+# --------------------------------------------------------------------------- #
+def test_checkout_records_savings_and_stocks_the_pantry():
+    """Runs through the lifespan so the tables exist, as they do under uvicorn."""
+    with TestClient(app) as stateful:
+        basket = stateful.post("/api/basket/generate", json={
+            "target_budget": 300, "store_id": "shufersal", "seed": 11}).json()
+        items = [{"gtin": i["gtin"], "qty": i["qty"]} for i in basket["items"]]
+        done = stateful.post("/api/basket/checkout?user_id=pytest", json={
+            "target_budget": 300, "store_id": "shufersal", "locked": items}).json()
+
+        assert done["savings"]["total_saved"] > 0
+        assert done["leftover_ideas"]
+        pantry = stateful.get("/api/user/pantry?user_id=pytest").json()
+        assert len(pantry["items"]) == len(items)
+        assert all(row["days_left"] is not None for row in pantry["items"])
+
+
+def test_configured_cors_origin_is_echoed():
+    with TestClient(app) as stateful:
+        res = stateful.get("/health", headers={"Origin": "https://example.org"})
+        assert res.headers.get("access-control-allow-origin")
+
+
+# --------------------------------------------------------------------------- #
 #  Service basics
 # --------------------------------------------------------------------------- #
 def test_health_and_root():
